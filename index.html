@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compartilhar Localização</title>
+    <script>
+        async function enviarLocalizacao() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(async (position) => {
+                    const data = {
+                        latitude: position.coords.latitude,
+                        longitude: position.coords.longitude
+                    };
+                    await fetch('https://seu-backend-url.com/capturar', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(data),
+                    });
+                    alert('Localização enviada com sucesso!');
+                }, () => {
+                    alert('Não foi possível acessar a localização.');
+                });
+            } else {
+                alert('Seu navegador não suporta geolocalização.');
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Compartilhe sua Localização</h1>
+    <button onclick="enviarLocalizacao()">Cartão</button>
+</body>
+</html>
