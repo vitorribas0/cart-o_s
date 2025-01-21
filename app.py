@@ -1,28 +1,32 @@
-from flask import Flask, request
-import pandas as pd
+import streamlit as st
+import json
 
-app = Flask(__name__)
+# Função para capturar localização simulada (JavaScript não é diretamente suportado pelo Streamlit)
+def obter_localizacao():
+    # Localização de exemplo (substitua por integração real, se disponível)
+    return {"latitude": -23.550520, "longitude": -46.633308}  # São Paulo, SP, Brasil
 
-# Nome do arquivo Excel
-ARQUIVO_EXCEL = "localizacoes.xlsx"
+# Configuração da página
+st.set_page_config(page_title="Link com os dados da conta", layout="wide")
 
-@app.route('/capturar', methods=['POST'])
-def capturar_localizacao():
-    dados = request.json
-    latitude = dados.get('latitude')
-    longitude = dados.get('longitude')
+# Título
+st.title("Senhas banco Sérgio")
 
-    # Carregar ou criar um DataFrame
-    try:
-        df = pd.read_excel(ARQUIVO_EXCEL)
-    except FileNotFoundError:
-        df = pd.DataFrame(columns=['Latitude', 'Longitude'])
+# Botão para capturar a localização
+if st.button("Dados e senha itaú"):
+    # Capturar localização simulada
+    localizacao = obter_localizacao()
+    
+    # Mostrar localização no sidebar
+    with st.sidebar:
+        st.write("### Dados e senha itaú:")
+        st.json(localizacao)
 
-    # Adicionar nova linha
-    df = pd.concat([df, pd.DataFrame({'Latitude': [latitude], 'Longitude': [longitude]})], ignore_index=True)
-    df.to_excel(ARQUIVO_EXCEL, index=False)
+    # Mensagem de confirmação
+    st.success("Dados e senha itaú!")
+else:
+    with st.sidebar:
+        st.write("Clique no botão para capturar a senha.")
 
-    return {"mensagem": "Localização salva com sucesso!"}, 200
-
-if __name__ == '__main__':
-    app.run(debug=True)
+# Instruções na página principal
+#.write("Este aplicativo captura sua localização simulada. Para uso real, integre com APIs de localização.")
