@@ -2,7 +2,7 @@ import streamlit as st
 import streamlit.components.v1 as components
 
 # Função para capturar a localização via JavaScript
-def get_geolocation():
+#def get_geolocation():
     # Código JavaScript para capturar a localização
     js_code = """
     <script>
